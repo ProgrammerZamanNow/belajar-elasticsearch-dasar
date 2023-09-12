@@ -156,3 +156,21 @@ Content-Type: application/json
 ### get orders mapping
 GET http://localhost:9200/orders/_mapping
 
+### get customer khannedy
+GET http://localhost:9200/customers/_doc/khannedy
+
+### get customer notfound
+GET http://localhost:9200/customers/_doc/salah
+
+### get customer khannedy
+GET http://localhost:9200/customers/_source/khannedy
+
+### get customer notfound
+GET http://localhost:9200/customers/_source/salah
+
+### check customer khannedy
+HEAD http://localhost:9200/customers/_doc/khannedy
+
+### check customer notfound
+HEAD http://localhost:9200/customers/_doc/salah
+
