@@ -174,3 +174,33 @@ HEAD http://localhost:9200/customers/_doc/khannedy
 ### check customer notfound
 HEAD http://localhost:9200/customers/_doc/salah
 
+### get products 1 and 2
+GET http://localhost:9200/products/_mget
+Content-Type: application/json
+
+{
+  "ids" : [
+    "1", "2"
+  ]
+}
+
+### get order 1 and customer khannedy
+GET http://localhost:9200/_mget
+Content-Type: application/json
+
+{
+  "docs": [
+    {
+      "_id" : "1",
+      "_index": "orders"
+    },
+    {
+      "_id" : "khannedy",
+      "_index": "customers"
+    },
+    {
+      "_id" : "3",
+      "_index": "products"
+    }
+  ]
+}
