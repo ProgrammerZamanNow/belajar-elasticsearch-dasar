@@ -262,3 +262,15 @@ Content-Type: application/json
     "price": 30000000
   }
 }
+
+### insert customer spammer
+POST http://localhost:9200/customers/_create/spammer
+Content-Type: application/json
+
+{
+  "name" : "spammer",
+  "register_at" : "2023-10-10 00:00:00"
+}
+
+### delete customer spammer
+DELETE http://localhost:9200/customers/_doc/spammer
