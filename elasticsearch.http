@@ -274,3 +274,12 @@ Content-Type: application/json
 
 ### delete customer spammer
 DELETE http://localhost:9200/customers/_doc/spammer
+
+### search customer
+GET http://localhost:9200/customers/_search
+
+### bulk api
+POST http://localhost:9200/_bulk
+Content-Type: application/json
+
+< bulk.json
