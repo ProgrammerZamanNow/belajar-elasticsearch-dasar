@@ -652,3 +652,35 @@ Content-Type: application/json
     }
   ]
 }
+
+### search customer where username IN ('username1', 'username2', 'username3')
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "terms": {
+      "username": [
+        "username1",
+        "username2",
+        "username3"
+      ]
+    }
+  }
+}
+
+### search customer where banks.name IN ('BCA', 'BTN', 'BNI')
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "terms": {
+      "banks.name": [
+        "bca",
+        "btn",
+        "bni"
+      ]
+    }
+  }
+}
