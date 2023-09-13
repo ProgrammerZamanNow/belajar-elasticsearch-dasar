@@ -313,3 +313,67 @@ GET http://localhost:9200/customer/_search
 
 ### search order
 GET http://localhost:9200/order/_search
+
+### create index orders_v2
+PUT http://localhost:9200/orders_v2
+
+### update orders_v2 mapping
+PUT http://localhost:9200/orders_v2/_mapping
+Content-Type: application/json
+
+{
+  "numeric_detection" : true,
+  "date_detection" : true,
+  "dynamic_date_formats" : [
+    "yyyy-MM-dd HH:mm:ss",
+    "yyyy-MM-dd",
+    "yyyy/MM/dd HH:mm:ss",
+    "yyyy/MM/dd"
+  ]
+}
+
+### reindex from orders to orders_v2
+POST http://localhost:9200/_reindex
+Content-Type: application/json
+
+{
+  "source": {
+    "index": "orders"
+  },
+  "dest": {
+    "index": "orders_v2"
+  }
+}
+
+### search orders
+GET http://localhost:9200/orders/_search
+
+### search orders_v2
+GET http://localhost:9200/orders_v2/_search
+
+### switch alias order from orders to orders_v2
+POST http://localhost:9200/_aliases
+Content-Type: application/json
+
+{
+  "actions" : [
+    {
+      "remove" : {
+        "alias" : "order",
+        "index" : "orders"
+      }
+    },
+    {
+      "add" : {
+        "alias" : "order",
+        "index" : "orders_v2"
+      }
+    }
+  ]
+}
+
+### get aliases
+GET http://localhost:9200/_aliases
+
+### search to order alias
+GET http://localhost:9200/order/_search
