@@ -389,3 +389,78 @@ GET http://localhost:9200/products/_search?_source_excludes=price
 
 ### select total, customer_id from order where _id = 1
 GET http://localhost:9200/order/_doc/1?_source_includes=total,customer_id
+
+### create index customers_v2
+PUT http://localhost:9200/customers_v2
+
+### update mapping customers_v2
+PUT http://localhost:9200/customers_v2/_mapping
+Content-Type: application/json
+
+{
+  "numeric_detection": true,
+  "date_detection": true,
+  "dynamic_date_formats": [
+    "yyyy-MM-dd HH:mm:ss",
+    "yyyy-MM-dd",
+    "yyyy/MM/dd HH:mm:ss",
+    "yyyy/MM/dd"
+  ],
+  "properties": {
+    "username": {
+      "type": "keyword"
+    },
+    "first_name": {
+      "type": "text"
+    },
+    "last_name": {
+      "type": "text"
+    },
+    "email": {
+      "type": "keyword"
+    },
+    "gender": {
+      "type": "keyword"
+    },
+    "birth_date": {
+      "type": "date",
+      "format": "yyyy-MM-dd"
+    }
+  }
+}
+
+### get mapping customers_v2
+GET http://localhost:9200/customers_v2/_mapping
+
+### switch alias customer from customers to customers_v2
+POST http://localhost:9200/_aliases
+Content-Type: application/json
+
+{
+  "actions" : [
+    {
+      "remove" : {
+        "alias" : "customer",
+        "index" : "customers"
+      }
+    },
+    {
+      "add" : {
+        "alias" : "customer",
+        "index" : "customers_v2"
+      }
+    }
+  ]
+}
+
+### get aliases
+GET http://localhost:9200/_aliases
+
+### search customer
+GET http://localhost:9200/customer/_search
+
+### bulk insert customers
+POST http://localhost:9200/_bulk
+Content-Type: application/json
+
+< customers.json
