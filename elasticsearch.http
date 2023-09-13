@@ -684,3 +684,118 @@ Content-Type: application/json
     }
   }
 }
+
+### search customer where hobbies = 'gaming' AND banks.name = 'bca'
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "hobbies": "gaming"
+          }
+        },
+        {
+          "match": {
+            "banks.name": {
+              "query" : "bca digital",
+              "operator" : "AND"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+### search customer where hobbies = 'gaming' AND banks.name = 'bca'
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "hobbies": "gaming"
+          }
+        },
+        {
+          "match": {
+            "banks.name": {
+              "query" : "bca digital",
+              "operator" : "AND"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "sort" : [
+    {
+      "username" : {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+### search customer where hobbies != 'gaming' AND banks.name != 'bca digital'
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "hobbies": "gaming"
+          }
+        },
+        {
+          "match": {
+            "banks.name": {
+              "query": "bca digital"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+### search customer where hobbies = 'GAMING' AND (banks.name = 'bca' OR 'banks.name = 'bni)
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must" : [
+        {
+          "term" : {
+            "hobbies" : "gaming"
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "banks.name": "bca"
+          }
+        },
+        {
+          "term": {
+            "banks.name": "bni"
+          }
+        }
+      ],
+      "minimum_should_match" : 1
+    }
+  }
+}
