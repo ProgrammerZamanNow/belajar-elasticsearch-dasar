@@ -464,3 +464,37 @@ POST http://localhost:9200/_bulk
 Content-Type: application/json
 
 < customers.json
+
+### update customers_v2 mapping
+PUT http://localhost:9200/customers_v2/_mapping
+Content-Type: application/json
+
+{
+  "properties" : {
+    "address" : {
+      "properties" : {
+        "street" : {
+          "type" : "text"
+        },
+        "city" : {
+          "type" : "text"
+        },
+        "province" : {
+          "type" : "text"
+        },
+        "country" : {
+          "type" : "text"
+        },
+        "zip_code" : {
+          "type" : "keyword"
+        }
+      }
+    }
+  }
+}
+
+### insert customers
+POST http://localhost:9200/_bulk
+Content-Type: application/json
+
+< customers-with-addresses.json
