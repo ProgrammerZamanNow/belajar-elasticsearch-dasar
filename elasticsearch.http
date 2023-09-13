@@ -499,35 +499,36 @@ Content-Type: application/json
 
 < customers-with-addresses.json
 
-### search customer using match_all
-POST http://localhost:9200/customer/_search
+### update customers_v2 mapping
+PUT http://localhost:9200/customers_v2/_mapping
 Content-Type: application/json
 
 {
-  "query" : {
-    "match_all" : {
-
+  "properties": {
+    "hobbies": {
+      "type": "text"
+    },
+    "banks": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "account_number": {
+          "type": "keyword"
+        }
+      }
     }
   }
 }
 
-### search customer using match_all and paging and sorting
-POST http://localhost:9200/customer/_search
+### get customers_v2 mapping
+GET http://localhost:9200/customers_v2/_mapping
+
+### bulk index customers_v2
+POST http://localhost:9200/_bulk
 Content-Type: application/json
 
-{
-  "query" : {
-    "match_all" : {
+< customers-with-banks-and-hobbies.json
 
-    }
-  },
-  "size" : 5,
-  "from": 0,
-  "sort" : [
-    {
-      "username" : {
-        "order": "desc"
-      }
-    }
-  ]
-}
+### search customer
+POST http://localhost:9200/customer/_search
