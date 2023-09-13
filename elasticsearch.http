@@ -532,3 +532,32 @@ Content-Type: application/json
 
 ### search customer
 POST http://localhost:9200/customer/_search
+
+### search customer using match_all
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "match_all" : {}
+  }
+}
+
+### search customer using match_all
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "match_all" : {}
+  },
+  "size" : 5,
+  "from" : 0,
+  "sort" : [
+    {
+      "username" : {
+        "order": "desc"
+      }
+    }
+  ]
+}
