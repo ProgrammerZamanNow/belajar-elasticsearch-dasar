@@ -603,3 +603,52 @@ Content-Type: application/json
     }
   ]
 }
+
+### search customer where banks.name = 'BCA'
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "match" : {
+      "banks.name" : "BCA"
+    }
+  },
+  "size" : 5,
+  "from" : 0,
+  "sort" : [
+    {
+      "username" : {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+### banks.name = "BCA" => banks.name = ["bca"]
+### banks.name = "BCA Digital" => banks.name = ["bca", "digital"]
+### email = "EKO@example.COM" => email = ["eko", "example", "com"]
+
+### search customer where banks.name = 'BCA DIGITAL'
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "match" : {
+      "banks.name" : {
+        "query" : "BCA DIGITAL",
+        "operator" : "AND"
+      }
+    }
+  },
+  "size" : 5,
+  "from" : 0,
+  "sort" : [
+    {
+      "username" : {
+        "order": "desc"
+      }
+    }
+  ]
+}
