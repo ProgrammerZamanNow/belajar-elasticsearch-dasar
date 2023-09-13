@@ -498,3 +498,36 @@ POST http://localhost:9200/_bulk
 Content-Type: application/json
 
 < customers-with-addresses.json
+
+### search customer using match_all
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "match_all" : {
+
+    }
+  }
+}
+
+### search customer using match_all and paging and sorting
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "match_all" : {
+
+    }
+  },
+  "size" : 5,
+  "from": 0,
+  "sort" : [
+    {
+      "username" : {
+        "order": "desc"
+      }
+    }
+  ]
+}
