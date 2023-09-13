@@ -283,3 +283,33 @@ POST http://localhost:9200/_bulk
 Content-Type: application/json
 
 < bulk.json
+
+### create alias customer and order
+POST http://localhost:9200/_aliases
+Content-Type: application/json
+
+{
+  "actions" : [
+    {
+      "add" : {
+        "alias" : "customer",
+        "index" : "customers"
+      }
+    },
+    {
+      "add" : {
+        "alias" : "order",
+        "index" : "orders"
+      }
+    }
+  ]
+}
+
+### get aliases
+GET http://localhost:9200/_aliases
+
+### search customer
+GET http://localhost:9200/customer/_search
+
+### search order
+GET http://localhost:9200/order/_search
