@@ -810,7 +810,10 @@ Content-Type: application/json
       "must" : [
         {
           "term" : {
-            "hobbies" : "gaming"
+            "hobbies" : {
+              "value" : "gaming",
+              "boost" : 0
+            }
           }
         }
       ],
@@ -827,6 +830,35 @@ Content-Type: application/json
         }
       ],
       "minimum_should_match" : 1
+    }
+  }
+}
+
+### search customer where (banks.name = 'bca' OR 'banks.name = 'bni)
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "banks.name": {
+              "value" : "bca",
+              "boost" : 0
+            }
+          }
+        },
+        {
+          "term": {
+            "banks.name": {
+              "value" : "bni",
+              "boost" : 2
+            }
+          }
+        }
+      ]
     }
   }
 }
