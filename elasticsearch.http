@@ -862,3 +862,87 @@ Content-Type: application/json
     }
   }
 }
+
+### update customer mapping
+PUT http://localhost:9200/customer/_mapping
+Content-Type: application/json
+
+{
+  "properties" : {
+    "labels" : {
+      "type": "flattened"
+    }
+  }
+}
+
+### get customer mapping
+GET http://localhost:9200/customer/_mapping
+
+### update customer username1
+POST http://localhost:9200/customer/_update/username1
+Content-Type: application/json
+
+{
+  "doc" : {
+    "labels" : {
+      "priority" : "vip",
+      "discount" : "10% discount",
+      "complaint": "always complaint"
+    }
+  }
+}
+
+### get customer username1
+GET http://localhost:9200/customer/_doc/username1
+
+### update customer username2
+POST http://localhost:9200/customer/_update/username2
+Content-Type: application/json
+
+{
+  "doc" : {
+    "labels" : {
+      "priority" : "regular",
+      "verified" : "unverified",
+      "buy" : "never buy"
+    }
+  }
+}
+
+### get customer username2
+GET http://localhost:9200/customer/_doc/username2
+
+### search vip customer
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "term" : {
+      "labels": "regular"
+    }
+  }
+}
+
+### search vip and regular customer
+POST http://localhost:9200/customer/_search
+Content-Type: application/json
+
+{
+  "query" : {
+    "bool" : {
+      "should" : [
+        {
+          "term" : {
+            "labels.priority" : "vip"
+          }
+        },
+        {
+          "term" : {
+            "labels.priority" : "regular"
+          }
+        }
+      ]
+    }
+  }
+}
