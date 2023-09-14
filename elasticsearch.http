@@ -1104,3 +1104,65 @@ Content-Type: application/json
     }
   }
 }
+
+### create index category
+PUT http://localhost:9200/categories
+
+### update category mapping
+PUT http://localhost:9200/categories/_mapping
+Content-Type: application/json
+
+{
+  "properties" : {
+    "name": {
+      "type": "text",
+      "fields": {
+        "raw" : {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
+
+### get categories mapping
+GET http://localhost:9200/categories/_mapping
+
+### inser categories
+POST http://localhost:9200/categories/_doc/1
+Content-Type: application/json
+
+{
+  "name" : "Laptop Murah"
+}
+
+### search categories
+POST http://localhost:9200/categories/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match" : {
+      "name" : "laptop"
+    }
+  },
+  "sort": [
+    {
+      "name.raw" : {
+        "order": "asc"
+      }
+    }
+  ]
+}
+
+### search categories
+POST http://localhost:9200/categories/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match" : {
+      "name.raw" : "Laptop Murah"
+    }
+  }
+}
