@@ -1240,3 +1240,72 @@ Content-Type: application/json
     }
   }
 }
+
+### delete all categories
+POST http://localhost:9200/categories/_delete_by_query
+Content-Type: application/json
+
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+### update mapping for categories
+PUT http://localhost:9200/categories/_mapping
+Content-Type: application/json
+
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    }
+  }
+}
+
+### bulk insert categories
+POST http://localhost:9200/_bulk
+Content-Type: application/json
+
+< categories.json
+
+### search categories
+POST http://localhost:9200/categories/_search
+Content-Type: application/json
+
+{
+  "size": 100,
+  "from": 0,
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "asc"
+      }
+    }
+  ]
+}
+
+### search categories
+POST http://localhost:9200/categories/_search
+Content-Type: application/json
+
+{
+  "size": 100,
+  "from": 0,
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "id": {
+        "order": "asc"
+      }
+    }
+  ],
+  "search_after": [
+    "10357"
+  ]
+}
