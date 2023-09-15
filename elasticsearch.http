@@ -1309,3 +1309,82 @@ Content-Type: application/json
     "10357"
   ]
 }
+
+### Cat API
+GET http://localhost:9200/_cat
+
+### Cat API - Indices
+GET http://localhost:9200/_cat/indices?v
+
+### Cat API - Aliases
+GET http://localhost:9200/_cat/aliases?v
+
+### Cat API - Nodes
+GET http://localhost:9200/_cat/nodes?v
+
+### Create snapshot repository
+PUT http://localhost:9200/_snapshot/first_backup
+Content-Type: application/json
+
+{
+  "type": "fs",
+  "settings": {
+    "location": "first_backup"
+  }
+}
+
+### get snapshot
+GET http://localhost:9200/_snapshot
+
+### create snapshot
+PUT http://localhost:9200/_snapshot/first_backup/snapshot1
+Content-Type: application/json
+
+{
+  "indices": [],
+  "metadata": {
+    "taken_by": "eko",
+    "taken_because": "backup before upgradring"
+  }
+}
+
+### get snapshot
+GET http://localhost:9200/_snapshot/first_backup/snapshot1
+
+### cat api - get snapshot
+GET http://localhost:9200/_cat/snapshots?v
+
+### delete all categories
+POST http://localhost:9200/categories/_delete_by_query
+Content-Type: application/json
+
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+### search categories
+POST http://localhost:9200/categories/_search
+
+### close index categories
+POST http://localhost:9200/categories/_close
+
+### restore categories
+POST http://localhost:9200/_snapshot/first_backup/snapshot1/_restore
+Content-Type: application/json
+
+{
+  "indices": [
+    "categories"
+  ]
+}
+
+### open index categories
+POST http://localhost:9200/categories/_open
+
+### delete snapshot
+DELETE http://localhost:9200/_snapshot/first_backup/snapshot1
+
+### delete repository
+DELETE http://localhost:9200/_snapshot/first_backup
