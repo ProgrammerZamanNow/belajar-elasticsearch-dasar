@@ -1208,3 +1208,35 @@ Content-Type: application/json
     "match_all": {}
   }
 }
+
+
+### insert salah category
+POST http://localhost:9200/categories/_doc/2
+Content-Type: application/json
+
+{
+  "name": "Salah"
+}
+
+### insert salah category
+POST http://localhost:9200/categories/_doc/3
+Content-Type: application/json
+
+{
+  "name": "Salah Lagi"
+}
+
+###search categories
+POST http://localhost:9200/categories/_search
+
+### delete categories by query
+POST http://localhost:9200/categories/_delete_by_query
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "name": "salah"
+    }
+  }
+}
